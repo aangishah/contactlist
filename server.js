@@ -1,17 +1,26 @@
 var express =  require('express'); //express require functions like import
+var session = require('express-session');  //add this session variable then add line 8
 var app=express();
 var mongojs= require('mongojs');
 var db=mongojs('contactlist',['contactlist']);
 var bodyParser=require('body-parser');
 
-
+app.use(session({secret: 'ssshhhhh', saveUninitialized: true,resave: true})); // add any secret key to session
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.get('/contactlist',function (req,res)
 {
 
-	// body...
-	console.log('recieved a get request');
+	var sess = req.session;   // get session of request in variable sess
+	if(sess.username)
+	{
+		sess.username = 'aangi';
+    }
+	else{
+	var username = req.body.username;
+	console.log(username);
+	
+	}
 	/*person1 = {
 		name: 'aangi',
 		email: 'aangishah2696@gmail.com',
